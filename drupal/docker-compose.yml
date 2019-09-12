@@ -1,0 +1,42 @@
+version: '3'
+services:
+  nginx:
+   container_name: drupal-front
+   image: drupal:8.7.7-apache
+   restart: always
+   ports:
+   - 80:80
+   - 443:443
+   volumes:
+    - modules:/var/www/html/modules
+    - profiles:/var/www/html/profiles
+    - themes:/var/www/html/themes
+    # this takes advantage of the feature in Docker that a new anonymous
+    # volume (which is what we're creating here) will be initialized with the
+    # existing content of the image at the same location
+    - sites:/var/www/html/sites
+   depends_on:
+    - mysql
+
+  mysql:
+   container_name: drupal-mysql
+   image: mysql:latest #5.7 works
+   environment:
+    MYSQL_USER: drupal
+    MYSQL_DATABASE: drupal
+    MYSQL_ROOT_PASSWORD: drupaladmin
+    MYSQL_PASSWORD: drupal
+    MYSQL_ROOT_HOST: '%'
+   ports:
+   - 3306:3306
+   volumes:
+   - "mysql:/var/lib/mysql"
+   restart: always
+   command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  modules:
+  profiles:
+  themes:
+  sites:
+  mysql:
