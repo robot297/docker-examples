@@ -3,6 +3,8 @@ services:
   nginx:
    container_name: drupal-front
    image: drupal:8.7.7-apache
+   deploy:
+    replicas: 1
    restart: always
    ports:
    - 80:80
@@ -15,12 +17,16 @@ services:
     # volume (which is what we're creating here) will be initialized with the
     # existing content of the image at the same location
     - sites:/var/www/html/sites
+   labels:
+        kompose.service.type: LoadBalancer
    depends_on:
     - mysql
 
   mysql:
    container_name: drupal-mysql
    image: mysql:latest #5.7 works
+   deploy:
+    replicas: 1
    environment:
     MYSQL_USER: drupal
     MYSQL_DATABASE: drupal
