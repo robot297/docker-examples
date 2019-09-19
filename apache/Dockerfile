@@ -1,3 +1,3 @@
 FROM httpd:latest
 
-# We need to add something here....
+COPY index.html dest /usr/local/apache2/htdocs/
