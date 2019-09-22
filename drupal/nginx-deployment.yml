@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nginx
+  name: nginx
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nginx
+    spec:
+      containers:
+      - image: drupal:8.7.7-apache
+        name: drupal-front
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/www/html/modules
+          name: drupal-volume
+        - mountPath: /var/www/html/profiles
+          name: drupal-volume
+        - mountPath: /var/www/html/themes
+          name: drupal-volume
+        - mountPath: /var/www/html/sites
+          name: drupal-volume
+      restartPolicy: Always
+      volumes:
+      - name: drupal-volume
+        persistentVolumeClaim:
+          claimName: drupal-volume
+status: {}
