@@ -10,13 +10,13 @@ services:
    - 80:80
    - 443:443
    volumes:
-    - modules:/var/www/html/modules
-    - profiles:/var/www/html/profiles
-    - themes:/var/www/html/themes
+    - drupal_volume:/var/www/html/modules
+    - drupal_volume:/var/www/html/profiles
+    - drupal_volume:/var/www/html/themes
     # this takes advantage of the feature in Docker that a new anonymous
     # volume (which is what we're creating here) will be initialized with the
     # existing content of the image at the same location
-    - sites:/var/www/html/sites
+    - drupal_volume:/var/www/html/sites
    labels:
         kompose.service.type: LoadBalancer
    depends_on:
@@ -41,8 +41,5 @@ services:
    command: --default-authentication-plugin=mysql_native_password
 
 volumes:
-  modules:
-  profiles:
-  themes:
-  sites:
+  drupal_volume:
   mysql:
