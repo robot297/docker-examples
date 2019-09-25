@@ -15,3 +15,11 @@ This example showcases how you can build a simple website using apache.
 * `cd drupal`
 * `docker-compose up -d` - This will "deploy" your containers on your machine and build your infrastructure
 * `docker-compose down` - This will tear down all your apps.
+
+## phpMyAdmin folder
+
+* `cd phpmyadmin`
+* `docker-compose up -d` - This will "deploy" your containers on your machine and build your infrastructure
+* `docker-compose down` - This will tear down all your apps.
+
+Username and password (log is as root) are provided in the `docker-compose.yml` file.
